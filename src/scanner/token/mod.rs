@@ -5,24 +5,19 @@ use std::fmt::Display;
 pub use token_type::TokenType;
 
 #[derive(Debug)]
-pub struct Token<'a> {
+pub struct Token {
     token_type: TokenType,
-    lexeme: &'a str,
     line: usize,
 }
 
-impl<'a> Token<'a> {
-    pub fn new(token_type: TokenType, lexeme: &'a str, line: usize) -> Self {
-        Self {
-            token_type,
-            lexeme,
-            line,
-        }
+impl Token {
+    pub fn new(token_type: TokenType, line: usize) -> Self {
+        Self { token_type, line }
     }
 }
 
-impl Display for Token<'_> {
+impl Display for Token {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} {}", self.token_type, self.lexeme)
+        write!(f, "{}", self.token_type)
     }
 }

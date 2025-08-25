@@ -9,9 +9,14 @@ use std::{
 };
 
 use result::Result;
+use scanner::Scanner;
 
 fn run(source: String) -> Result<()> {
-    for token in source.split_whitespace() {
+    let mut scanner = Scanner::new(source.as_str());
+
+    scanner.scan_tokens();
+
+    for token in scanner.tokens() {
         println!("{token}")
     }
 
