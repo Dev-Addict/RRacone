@@ -5,6 +5,7 @@ pub enum SyntaxError {
     UnexpectedCharacter { line: usize, character: char },
     UnterminatedString { line: usize },
     InvalidNumber { line: usize },
+    UnterminatedMultilineComment { line: usize },
 }
 
 impl Display for SyntaxError {
@@ -14,6 +15,9 @@ impl Display for SyntaxError {
                 write!(f, "Unexpected Character at Line {line}: {character}")
             }
             Self::UnterminatedString { line } => write!(f, "Unterminated String at Line: {line}"),
+            Self::UnterminatedMultilineComment { line } => {
+                write!(f, "Unterminated Multiline Comment at Line: {line}")
+            }
             Self::InvalidNumber { line } => write!(f, "Invalid Number at Line: {line}"),
         }
     }

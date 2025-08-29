@@ -99,6 +99,8 @@ impl<'a> Scanner<'a> {
                                 break;
                             }
                         }
+                    } else if self.is_match('*') {
+                        self.multiline_comment()?;
                     } else {
                         self.add_token(TokenType::Slash);
                     }
@@ -250,5 +252,28 @@ impl<'a> Scanner<'a> {
             "while" => TokenType::While,
             _ => TokenType::Identifier(buf),
         });
+    }
+
+    fn multiline_comment(&mut self) -> Result<()> {
+        let mut expected_end = false;
+
+        while let Some(c) = self.chars.next() {
+            if c == '*' && self.is_match('/') {
+                expected_end = true;
+                break;
+            }
+
+            if c == '\n' {
+                self.line += 1;
+            }
+        }
+
+        if expected_end {
+            Ok(())
+        } else {
+            Err(Error::Syntax(SyntaxError::UnterminatedString {
+                line: self.line,
+            }))
+        }
     }
 }
