@@ -1,3 +1,4 @@
+mod ast;
 mod error;
 mod result;
 mod scanner;
@@ -10,6 +11,11 @@ use std::{
 
 use result::Result;
 use scanner::Scanner;
+
+use crate::{
+    ast::{Expr, Literal},
+    scanner::token::{Token, TokenType},
+};
 
 fn run(source: String) -> Result<()> {
     let mut scanner = Scanner::new(source.as_str());
@@ -51,6 +57,19 @@ fn run_prompt() -> Result<()> {
 }
 
 fn main() -> Result<()> {
+    let expr = Expr::Binary {
+        left: Box::new(Expr::Unary {
+            operator: Token::new(TokenType::Minus, 1),
+            right: Box::new(Expr::Literal(Literal::Number(123.0))),
+        }),
+        operator: Token::new(TokenType::Star, 1),
+        right: Box::new(Expr::Grouping(Box::new(Expr::Literal(Literal::Number(
+            45.67,
+        ))))),
+    };
+
+    dbg!(expr);
+
     if args().len() > 2 {
         println!("Usage: rracone [script]");
     } else if args().len() == 2 {

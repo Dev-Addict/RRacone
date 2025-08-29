@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 pub use token_type::TokenType;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Token {
     token_type: TokenType,
     line: usize,
@@ -13,6 +13,14 @@ pub struct Token {
 impl Token {
     pub fn new(token_type: TokenType, line: usize) -> Self {
         Self { token_type, line }
+    }
+
+    pub fn token_type(&self) -> &TokenType {
+        &self.token_type
+    }
+
+    pub fn line(&self) -> usize {
+        self.line
     }
 }
 

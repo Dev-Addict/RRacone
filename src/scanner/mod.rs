@@ -1,4 +1,4 @@
-mod token;
+pub mod token;
 
 use std::{iter::Peekable, str::Chars};
 
@@ -271,7 +271,7 @@ impl<'a> Scanner<'a> {
         if expected_end {
             Ok(())
         } else {
-            Err(Error::Syntax(SyntaxError::UnterminatedString {
+            Err(Error::Syntax(SyntaxError::UnterminatedMultilineComment {
                 line: self.line,
             }))
         }
