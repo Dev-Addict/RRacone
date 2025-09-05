@@ -1,15 +1,18 @@
 mod interpreter;
+mod parser;
 mod syntax;
 
 use std::{error, fmt::Display, io};
 
 pub use interpreter::InterpreterError;
+pub use parser::ParserError;
 pub use syntax::SyntaxError;
 
 #[derive(Debug)]
 pub enum Error {
     Interpreter(InterpreterError),
     Syntax(SyntaxError),
+    Parser(ParserError),
 }
 
 impl Display for Error {
@@ -17,6 +20,7 @@ impl Display for Error {
         match self {
             Self::Interpreter(e) => write!(f, "Interpreter Error: {e}"),
             Self::Syntax(e) => write!(f, "Syntax Error: {e}"),
+            Self::Parser(e) => write!(f, "Parser Error: {e}"),
         }
     }
 }
